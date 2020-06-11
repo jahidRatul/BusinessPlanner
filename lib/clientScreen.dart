@@ -1,29 +1,24 @@
-import 'package:bussinesscounter/clientScreen.dart';
-import 'package:bussinesscounter/employeeScreen.dart';
-import 'package:bussinesscounter/officeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'officeScreen.dart';
 
-class HomeScreen extends StatefulWidget {
-  static String id = 'home';
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+class ClientScreen extends StatelessWidget {
+  static String id = 'client';
 
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(" Business Planner "),
-        centerTitle: true,
-      ),
-      body: AdminWidget(),
-    );
+    return
+      Scaffold(
+        appBar: AppBar(
+          title: Text(" Business Planner "),
+          centerTitle: true,
+        ),
+        body: ClientWidget(),
+      );
   }
 }
 
-class AdminWidget extends StatelessWidget {
+class ClientWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,14 +45,13 @@ class AdminWidget extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.all(15.0),
-            child: Text('Office', style: TextStyle(fontSize: 20)),
+            child: Text('Cash Pay', style: TextStyle(fontSize: 20)),
           ),
         ),
         SizedBox(height: 30),
         RaisedButton(
           onPressed: () {
-            Navigator.pushNamed(context, ClientScreen.id);
-
+            Navigator.pushNamed(context, OfficeScreen.id);
           },
           textColor: Colors.white,
           padding: EdgeInsets.all(15.0),
@@ -74,35 +68,21 @@ class AdminWidget extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.all(15.0),
-            child: Text('Client', style: TextStyle(fontSize: 20)),
+            child: Text('Bank Pay', style: TextStyle(fontSize: 20)),
           ),
         ),
         SizedBox(height: 30),
-        RaisedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, EmployeeScreen.id);
 
-          },
-          textColor: Colors.white,
-          padding: EdgeInsets.all(15.0),
-          child: Container(
-            width: double.infinity,
-
-
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF0D47A1),
-                  Color(0xFF1976D2),
-                  Color(0xFF42A5F5),
-                ],
-              ),
-            ),
-            padding: EdgeInsets.all(15.0),
-            child: Text('Employee', style: TextStyle(fontSize: 20)),
-          ),
-        ),
       ],
     );
   }
 }
+
+
+
+
+
+
+
+
+

@@ -27,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ListView(
               children: <Widget>[
                 SizedBox(
-                  height: 150,
+                  height: 70,
                 ),
                 Container(
                   margin: EdgeInsets.all(30),
@@ -37,7 +37,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     style: TextStyle(
                         fontSize: 25.0,
                         fontWeight: FontWeight.w900,
-                        color: Colors.grey),
+                        color: Colors.blueGrey),
                   ),
                 ),
                 SizedBox(
@@ -106,7 +106,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   margin: const EdgeInsets.only(left: 30, top: 30, right: 30),
                   child: RaisedButton(
                     elevation: 10,
-                    color: Colors.pinkAccent,
+                    color: Colors.indigo,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(40))),
@@ -120,9 +120,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     disabledColor: Colors.grey,
                   ),
-                ),
-                SizedBox(
-                  height: 80,
                 ),
 
               ],

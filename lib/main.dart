@@ -1,3 +1,6 @@
+import 'package:bussinesscounter/clientScreen.dart';
+import 'package:bussinesscounter/employeeScreen.dart';
+import 'package:bussinesscounter/officeScreen.dart';
 import 'package:flutter/material.dart';
 import 'welcomeScreen.dart';
 import 'homeScreen.dart';
@@ -13,6 +16,9 @@ class MyApp extends StatelessWidget {
       routes: {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         HomeScreen.id: (context) => HomeScreen(),
+        OfficeScreen.id: (context) =>OfficeScreen(),
+        ClientScreen.id:(context) =>ClientScreen(),
+        EmployeeScreen.id:(context) => EmployeeScreen()
       },
     );
   }
