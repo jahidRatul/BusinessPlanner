@@ -178,6 +178,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     print(response.body);
 
+    //returning as text
     Map<String, dynamic> user = jsonDecode(response.body);
     print("access token -> " + user['token']);
     print("accId -> " + user['accId'].toString());
