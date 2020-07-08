@@ -4,6 +4,7 @@ import 'package:bussinesscounter/officeScreen.dart';
 import 'package:flutter/material.dart';
 import 'welcomeScreen.dart';
 import 'homeScreen.dart';
+import 'registerScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         OfficeScreen.id: (context) =>OfficeScreen(),
         ClientScreen.id:(context) =>ClientScreen(),
-        EmployeeScreen.id:(context) => EmployeeScreen()
+        EmployeeScreen.id:(context) => EmployeeScreen(),
+        RegisterScreen.id:(context) => RegisterScreen(),
       },
     );
   }
