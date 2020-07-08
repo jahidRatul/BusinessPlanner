@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'homeScreen.dart';
 import 'registerScreen.dart';
+import 'package:http/http.dart' as http;
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome';
@@ -10,6 +12,8 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool _isLoading = false;
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +58,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   child: TextField(
+                    controller: mobileController,
                     keyboardType: TextInputType.phone,
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                     cursorColor: Color(0xFF9b9b9b),
@@ -85,6 +90,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   child: TextField(
+                    controller: passwordController,
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                     cursorColor: Color(0xFF9b9b9b),
                     decoration: InputDecoration(
@@ -129,14 +135,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   children: <Widget>[
                     Text(
                       'Don\'t have account? ',
-                      style: TextStyle(color: Colors.white,fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     FlatButton(
                       onPressed: () {
                         Navigator.pushNamed(context, RegisterScreen.id);
                       },
-                      child: Text('Sign Up',style: TextStyle(fontSize: 17),),
-
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(fontSize: 17),
+                      ),
                       textColor: Colors.indigo,
                     )
                   ],
@@ -150,6 +158,41 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   void _login() async {
-    Navigator.pushNamed(context, WelcomeScreen.id);
+    setState(() {
+      _isLoading = true;
+    });
+
+    // if (android emulator + local server) thn should be 10.0.2.2:5000 instead of localhost:5000
+    final url = 'http://10.0.2.2:5000/api/users/login';
+
+    Map data = {
+      'mobileno': mobileController.text,
+      'password': passwordController.text
+    };
+
+    //encode Map to JSON
+    var bodyValue = json.encode(data);
+
+    http.Response response = await http.post(url,
+        headers: {"Content-Type": "application/json"}, body: bodyValue);
+
+    print(response.body);
+
+
+    Map<String, dynamic> user = jsonDecode(response.body);
+    print("access token -> " + user['token']);
+    print("accId -> " + user['accId'].toString());
+    print("name -> " + user['name']);
+
+
+
+
+
+
+    Navigator.pushNamed(context, HomeScreen.id);
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
