@@ -1,8 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OfficeScreen extends StatelessWidget {
+class OfficeScreen extends StatefulWidget {
   static String id = 'office';
+
+  @override
+  _OfficeScreenState createState() => _OfficeScreenState();
+}
+
+class _OfficeScreenState extends State<OfficeScreen> {
+  void initState() {
+    _getUserInfo();
+
+    super.initState();
+  }
+
+  _getUserInfo() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    String keyValue = localStorage.getString('accessKey');
+    String nameValue = localStorage.getString('userName');
+    int uidValue = localStorage.getInt('uId');
+
+    print(keyValue);
+    print(nameValue);
+    print(uidValue);
+  }
 
   @override
   Widget build(BuildContext context) {

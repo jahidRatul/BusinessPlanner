@@ -24,9 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
     String nameValue = localStorage.getString('userName');
     int uidValue = localStorage.getInt('uId');
 
-    print(keyValue);
-    print(nameValue);
-    print(uidValue);
+    print('keyVal ->' + keyValue);
+    print('nameVal ->' + nameValue);
+    print('accId ->' + uidValue.toString());
   }
 
   @override
