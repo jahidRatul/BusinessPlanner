@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'homeScreen.dart';
 import 'registerScreen.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome';
@@ -43,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: ListView(
                 children: <Widget>[
                   SizedBox(
-                    height: 70,
+                    height: 20,
                   ),
                   Container(
                     margin: EdgeInsets.all(30),
@@ -185,6 +186,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         messageValidation = '';
         _isLoading = true;
       });
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
       // if (android emulator + local server) thn should be 10.0.2.2:5000 instead of localhost:5000
       final url = 'http://10.0.2.2:5000/api/users/login';
@@ -207,6 +209,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       print("success msg -> " + user['message']);
 
       if (user['success'] == 1) {
+        prefs.setString("accessKey", user['token']);
+        prefs.setString("userName", user['name']);
+        prefs.setInt("uId", user['accId']);
+
         Navigator.pushNamed(context, HomeScreen.id);
       } else {
         setState(() {
