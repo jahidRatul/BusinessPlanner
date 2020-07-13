@@ -65,12 +65,14 @@ class OfficeWidget extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.all(15.0),
-            child: Text('Payment', style: TextStyle(fontSize: 20)),
+            child: Text('Debit', style: TextStyle(fontSize: 20)),
           ),
         ),
         SizedBox(height: 30),
         RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+
+          },
           textColor: Colors.white,
           padding: EdgeInsets.all(15.0),
           child: Container(
@@ -86,7 +88,7 @@ class OfficeWidget extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.all(15.0),
-            child: Text('Receive', style: TextStyle(fontSize: 20)),
+            child: Text('Credit', style: TextStyle(fontSize: 20)),
           ),
         ),
         SizedBox(height: 30),

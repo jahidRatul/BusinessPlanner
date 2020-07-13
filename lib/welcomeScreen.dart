@@ -12,18 +12,18 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  TextEditingController mobileController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  String messageValidation = '';
-
   @override
   void dispose() {
     mobileController.dispose();
     passwordController.dispose();
     super.dispose();
   }
+
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  String messageValidation = '';
 
   @override
   Widget build(BuildContext context) {
@@ -213,6 +213,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         prefs.setString("userName", user['name']);
         prefs.setInt("uId", user['accId']);
 
+        mobileController.clear();
+        passwordController.clear();
         Navigator.pushNamed(context, HomeScreen.id);
       } else {
         setState(() {
