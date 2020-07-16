@@ -35,9 +35,32 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     userKey = keyValue;
     userId = uidValue;
 
-    print(keyValue);
-    print(nameValue);
-    print(uidValue);
+//    print(keyValue);
+//    print(nameValue);
+//    print(uidValue);
+    setState(() {
+      _getEmp();
+    });
+  }
+
+  Future<List<Employee>> _getEmp() async {
+    final url = 'http://10.0.2.2:5000/api/employees/employee';
+    http.Response response = await http.get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': 'Bearer $userKey'
+      },
+    );
+    var jsonData = json.decode(response.body);
+//    print(jsonData);
+    List<Employee> employees = [];
+    for (var i in jsonData) {
+      Employee employee = Employee(i["name"]);
+      employees.add(employee);
+    }
+//    print(employees.length);
+    return employees;
   }
 
   @override
@@ -96,11 +119,46 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
         icon: Icon(Icons.add),
         backgroundColor: Colors.indigo,
       ),
+      body: Container(
+        child: FutureBuilder(
+          future: _getEmp(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Container(
+                child: Center(child: Text('Loading...')),
+              );
+            } else
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      leading: CircleAvatar(
+                        child: Icon(
+                          Icons.account_circle,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text(snapshot.data[index].name),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailsPage(snapshot.data[index])));
+                      },
+                    );
+                  });
+          },
+        ),
+      ),
     );
   }
 
   _addEmp() async {
     final url = 'http://10.0.2.2:5000/api/employees/employee';
+    setState(() {
+      _getEmp();
+    });
 
     if (empController.text.isNotEmpty) {
       Map data = {'name': empController.text, 'uId': userId};
@@ -123,4 +181,22 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       Navigator.pop(context);
     }
   }
+}
+
+class DetailsPage extends StatelessWidget {
+  final Employee employee;
+  DetailsPage(this.employee);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(employee.name),
+      ),
+    );
+  }
+}
+
+class Employee {
+  final String name;
+  Employee(this.name);
 }
