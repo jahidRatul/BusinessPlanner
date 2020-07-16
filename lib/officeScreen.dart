@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'homeScreen.dart';
 
 class OfficeScreen extends StatefulWidget {
   static String id = 'office';
@@ -9,7 +13,21 @@ class OfficeScreen extends StatefulWidget {
   _OfficeScreenState createState() => _OfficeScreenState();
 }
 
+enum TransactionType { debit, credit }
+//TransactionType tValue = TransactionType.debit;
+
 class _OfficeScreenState extends State<OfficeScreen> {
+  TextEditingController amountController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+  var userKey;
+  var userId;
+
+  void dispose() {
+    amountController.dispose();
+    noteController.dispose();
+    super.dispose();
+  }
+
   void initState() {
     _getUserInfo();
 
@@ -22,87 +40,144 @@ class _OfficeScreenState extends State<OfficeScreen> {
     String nameValue = localStorage.getString('userName');
     int uidValue = localStorage.getInt('uId');
 
-    print(keyValue);
-    print(nameValue);
-    print(uidValue);
+    userKey = keyValue;
+    userId = uidValue;
+//    print(keyValue);
+//    print(nameValue);
+//    print(uidValue);
   }
 
+  TransactionType tValue = TransactionType.debit;
   @override
   Widget build(BuildContext context) {
-    return
-       Scaffold(
-          appBar: AppBar(
-            title: Text(" Business Planner "),
-            centerTitle: true,
-          ),
-          body: OfficeWidget(),
-      );
-  }
-}
-
-class OfficeWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        SizedBox(height: 30),
-
-        RaisedButton(
-          onPressed: () {},
-          textColor: Colors.white,
-          padding: const EdgeInsets.all(15.0),
-          child: Container(
-            width: double.infinity,
-
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF0D47A1),
-                  Color(0xFF1976D2),
-                  Color(0xFF42A5F5),
-                ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(" Business Planner "),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              title: const Text('Debit'),
+              leading: Radio(
+                value: TransactionType.debit,
+                groupValue: tValue,
+                onChanged: (TransactionType value) {
+                  setState(() {
+                    tValue = value;
+                  });
+                },
               ),
             ),
-            padding: EdgeInsets.all(15.0),
-            child: Text('Debit', style: TextStyle(fontSize: 20)),
-          ),
-        ),
-        SizedBox(height: 30),
-        RaisedButton(
-          onPressed: () {
-
-          },
-          textColor: Colors.white,
-          padding: EdgeInsets.all(15.0),
-          child: Container(
-            width: double.infinity,
-
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF0D47A1),
-                  Color(0xFF1976D2),
-                  Color(0xFF42A5F5),
-                ],
+            ListTile(
+              title: const Text('Credit'),
+              leading: Radio(
+                value: TransactionType.credit,
+                groupValue: tValue,
+                onChanged: (TransactionType value) {
+                  setState(() {
+                    tValue = value;
+                  });
+                },
               ),
             ),
-            padding: EdgeInsets.all(15.0),
-            child: Text('Credit', style: TextStyle(fontSize: 20)),
-          ),
+            Padding(
+              padding: EdgeInsets.only(left: 25, right: 70),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: amountController,
+                decoration: InputDecoration(
+                  hintText: 'amount',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 25, right: 70),
+              child: TextField(
+                maxLines: 3,
+                controller: noteController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Note',
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 25, top: 25),
+              child: RaisedButton(
+                onPressed: _completeTransaction,
+                child: Text(
+                  'Submit',
+                  style: TextStyle(fontSize: 17),
+                ),
+                textColor: Colors.indigo,
+              ),
+            )
+          ],
         ),
-        SizedBox(height: 30),
-
-      ],
+      ),
     );
   }
+
+  _completeTransaction() async {
+    if (amountController.text.isNotEmpty) {
+      if (tValue == TransactionType.debit) {
+        final url = 'http://10.0.2.2:5000/api/office/debit';
+
+        Map data = {
+          'amount': amountController.text,
+          'note': noteController.text,
+          'uId': userId
+        };
+        //encode Map to JSON
+        var bodyValue = json.encode(data);
+
+        http.Response response = await http.post(url,
+            headers: {
+              'Content-type': 'application/json',
+              'Authorization': 'Bearer $userKey'
+            },
+            body: bodyValue);
+
+        print(response.body);
+        //returning as text in map
+        Map<String, dynamic> user = jsonDecode(response.body);
+        print("success msg -> " + user['message']);
+        amountController.clear();
+        noteController.clear();
+        Navigator.pushNamed(context, HomeScreen.id);
+      } else {
+        final url = 'http://10.0.2.2:5000/api/office/credit';
+        Map data = {
+          'amount': amountController.text,
+          'note': noteController.text,
+          'uId': userId
+        };
+        //encode Map to JSON
+        var bodyValue = json.encode(data);
+
+        http.Response response = await http.post(url,
+            headers: {
+              'Content-type': 'application/json',
+              'Authorization': 'Bearer $userKey'
+            },
+            body: bodyValue);
+
+        print(response.body);
+        //returning as text in map
+        Map<String, dynamic> user = jsonDecode(response.body);
+        print("success msg -> " + user['message']);
+        amountController.clear();
+        noteController.clear();
+        Navigator.pushNamed(context, HomeScreen.id);
+      }
+    }
+  }
 }
-
-
-
-
-
-
-
-
-
