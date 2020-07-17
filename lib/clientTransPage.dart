@@ -1,26 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:bussinesscounter/clientScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'homeScreen.dart';
-
-class OfficeScreen extends StatefulWidget {
-  static String id = 'office';
-
-  @override
-  _OfficeScreenState createState() => _OfficeScreenState();
-}
+import 'package:http/http.dart' as http;
 
 enum TransactionType { debit, credit }
+var userKey;
+var userId;
 
-class _OfficeScreenState extends State<OfficeScreen> {
-  TextEditingController amountController = TextEditingController();
-  TextEditingController noteController = TextEditingController();
-  var userKey;
-  var userId;
+class ClientTransPage extends StatefulWidget {
+  final Client client;
 
+  ClientTransPage(this.client);
+
+  @override
+  _ClientTransPageState createState() => _ClientTransPageState();
+}
+
+class _ClientTransPageState extends State<ClientTransPage> {
   void dispose() {
     amountController.dispose();
     noteController.dispose();
@@ -33,25 +30,28 @@ class _OfficeScreenState extends State<OfficeScreen> {
     super.initState();
   }
 
+  TextEditingController amountController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+  TransactionType tValue = TransactionType.debit;
+
   _getUserInfo() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     String keyValue = localStorage.getString('accessKey');
     String nameValue = localStorage.getString('userName');
     int uidValue = localStorage.getInt('uId');
-
     userKey = keyValue;
     userId = uidValue;
-//    print(keyValue);
-//    print(nameValue);
-//    print(uidValue);
+
+    print(keyValue);
+    print(nameValue);
+    print(uidValue);
   }
 
-  TransactionType tValue = TransactionType.debit;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Business Planner "),
+        title: Text(widget.client.name),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -128,7 +128,8 @@ class _OfficeScreenState extends State<OfficeScreen> {
   _completeTransaction() async {
     if (amountController.text.isNotEmpty) {
       if (tValue == TransactionType.debit) {
-        final url = 'http://10.0.2.2:5000/api/office/debit';
+        final url =
+            'http://10.0.2.2:5000/api/clients/client/debit/${widget.client.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -151,9 +152,10 @@ class _OfficeScreenState extends State<OfficeScreen> {
         print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, HomeScreen.id);
+        Navigator.pushNamed(context, ClientScreen.id);
       } else {
-        final url = 'http://10.0.2.2:5000/api/office/credit';
+        final url =
+            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,
@@ -175,8 +177,14 @@ class _OfficeScreenState extends State<OfficeScreen> {
         print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, HomeScreen.id);
+        Navigator.pushNamed(context, ClientScreen.id);
       }
     }
   }
+}
+
+class Client {
+  final String name;
+  final int id;
+  Client(this.name, this.id);
 }

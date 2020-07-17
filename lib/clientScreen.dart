@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import 'clientTransPage.dart';
+
 class ClientScreen extends StatefulWidget {
   static String id = 'client';
 
@@ -10,14 +12,17 @@ class ClientScreen extends StatefulWidget {
   _ClientScreenState createState() => _ClientScreenState();
 }
 
+enum TransactionType { debit, credit }
+var userKey;
+var userId;
+
 class _ClientScreenState extends State<ClientScreen> {
   TextEditingController clientController = TextEditingController();
-  var userKey;
-  var userId;
 
   @override
   void dispose() {
     clientController.dispose();
+
     super.dispose();
   }
 
@@ -56,7 +61,7 @@ class _ClientScreenState extends State<ClientScreen> {
 //    print(jsonData);
     List<Client> clients = [];
     for (var i in jsonData) {
-      Client client = Client(i["name"]);
+      Client client = Client(i["name"], i["id"]);
       clients.add(client);
     }
 //    print(clients.length);
@@ -144,7 +149,7 @@ class _ClientScreenState extends State<ClientScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailsPage(snapshot.data[index])));
+                                    ClientTransPage(snapshot.data[index])));
                       },
                     );
                   });
@@ -181,22 +186,4 @@ class _ClientScreenState extends State<ClientScreen> {
       Navigator.pop(context);
     }
   }
-}
-
-class DetailsPage extends StatelessWidget {
-  final Client client;
-  DetailsPage(this.client);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(client.name),
-      ),
-    );
-  }
-}
-
-class Client {
-  final String name;
-  Client(this.name);
 }
