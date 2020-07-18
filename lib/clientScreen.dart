@@ -13,12 +13,11 @@ class ClientScreen extends StatefulWidget {
 }
 
 enum TransactionType { debit, credit }
-var userKey;
-var userId;
 
 class _ClientScreenState extends State<ClientScreen> {
   TextEditingController clientController = TextEditingController();
-
+  var userKey;
+  var userId;
   @override
   void dispose() {
     clientController.dispose();

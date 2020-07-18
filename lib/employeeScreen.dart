@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bussinesscounter/empTransPage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -56,7 +57,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
 //    print(jsonData);
     List<Employee> employees = [];
     for (var i in jsonData) {
-      Employee employee = Employee(i["name"]);
+      Employee employee = Employee(i["name"], i["id"]);
       employees.add(employee);
     }
 //    print(employees.length);
@@ -144,7 +145,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailsPage(snapshot.data[index])));
+                                    EmpTransPage(snapshot.data[index])));
                       },
                     );
                   });
@@ -181,22 +182,4 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       Navigator.pop(context);
     }
   }
-}
-
-class DetailsPage extends StatelessWidget {
-  final Employee employee;
-  DetailsPage(this.employee);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(employee.name),
-      ),
-    );
-  }
-}
-
-class Employee {
-  final String name;
-  Employee(this.name);
 }

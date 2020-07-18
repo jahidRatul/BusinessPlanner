@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bussinesscounter/clientScreen.dart';
+import 'package:bussinesscounter/employeeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -8,16 +8,16 @@ enum TransactionType { debit, credit }
 var userKey;
 var userId;
 
-class ClientTransPage extends StatefulWidget {
-  final Client client;
+class EmpTransPage extends StatefulWidget {
+  final Employee emp;
 
-  ClientTransPage(this.client);
+  EmpTransPage(this.emp);
 
   @override
-  _ClientTransPageState createState() => _ClientTransPageState();
+  _EmpTransPageState createState() => _EmpTransPageState();
 }
 
-class _ClientTransPageState extends State<ClientTransPage> {
+class _EmpTransPageState extends State<EmpTransPage> {
   void dispose() {
     amountController.dispose();
     noteController.dispose();
@@ -51,7 +51,7 @@ class _ClientTransPageState extends State<ClientTransPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.client.name),
+        title: Text(widget.emp.name),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -129,7 +129,7 @@ class _ClientTransPageState extends State<ClientTransPage> {
     if (amountController.text.isNotEmpty) {
       if (tValue == TransactionType.debit) {
         final url =
-            'http://10.0.2.2:5000/api/clients/client/debit/${widget.client.id}';
+            'http://10.0.2.2:5000/api/employees/employee/debit/${widget.emp.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -152,10 +152,10 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, ClientScreen.id);
+        Navigator.pushNamed(context, EmployeeScreen.id);
       } else {
         final url =
-            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
+            'http://10.0.2.2:5000/api/employees/employee/credit/${widget.emp.id}';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,
@@ -177,14 +177,14 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, ClientScreen.id);
+        Navigator.pushNamed(context, EmployeeScreen.id);
       }
     }
   }
 }
 
-class Client {
+class Employee {
   final String name;
   final int id;
-  Client(this.name, this.id);
+  Employee(this.name, this.id);
 }
