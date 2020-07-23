@@ -48,12 +48,15 @@ class _ClientScreenState extends State<ClientScreen> {
   }
 
   Future<List<Client>> _getClient() async {
-    final url = 'http://10.0.2.2:5000/api/clients/client';
+//    final url = 'http://10.0.2.2:5000/api/clients/client';
+
+    final url = 'http://192.168.1.109:5000/api/clients/client/user=$userId';
+
     http.Response response = await http.get(
       url,
       headers: {
         'Content-type': 'application/json',
-        'Authorization': 'Bearer $userKey'
+        'Authorization': 'Bearer $userKey',
       },
     );
     var jsonData = json.decode(response.body);
@@ -159,7 +162,10 @@ class _ClientScreenState extends State<ClientScreen> {
   }
 
   _addClient() async {
-    final url = 'http://10.0.2.2:5000/api/clients/client';
+//    final url = 'http://10.0.2.2:5000/api/clients/client';
+
+    final url = 'http://192.168.1.109:5000/api/clients/client';
+
     setState(() {
       _getClient();
     });

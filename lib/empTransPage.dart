@@ -128,8 +128,11 @@ class _EmpTransPageState extends State<EmpTransPage> {
   _completeTransaction() async {
     if (amountController.text.isNotEmpty) {
       if (tValue == TransactionType.debit) {
+//        final url =
+//            'http://10.0.2.2:5000/api/employees/employee/debit/${widget.emp.id}';
+
         final url =
-            'http://10.0.2.2:5000/api/employees/employee/debit/${widget.emp.id}';
+            'http://192.168.1.109:5000/api/employees/employee/debit/${widget.emp.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -154,8 +157,11 @@ class _EmpTransPageState extends State<EmpTransPage> {
         noteController.clear();
         Navigator.pushNamed(context, EmployeeScreen.id);
       } else {
+//        final url =
+//            'http://10.0.2.2:5000/api/employees/employee/credit/${widget.emp.id}';
         final url =
-            'http://10.0.2.2:5000/api/employees/employee/credit/${widget.emp.id}';
+            'http://192.168.1.109:5000/api/employees/employee/credit/${widget.emp.id}';
+
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,

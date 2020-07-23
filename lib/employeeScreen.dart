@@ -45,7 +45,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   }
 
   Future<List<Employee>> _getEmp() async {
-    final url = 'http://10.0.2.2:5000/api/employees/employee';
+//    final url = 'http://10.0.2.2:5000/api/employees/employee';
+
+    final url = 'http://192.168.1.109:5000/api/employees/employee/user=$userId';
+
     http.Response response = await http.get(
       url,
       headers: {
@@ -156,7 +159,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   }
 
   _addEmp() async {
-    final url = 'http://10.0.2.2:5000/api/employees/employee';
+//    final url = 'http://10.0.2.2:5000/api/employees/employee';
+
+    final url = 'http://192.168.1.109:5000/api/employees/employee';
+
     setState(() {
       _getEmp();
     });

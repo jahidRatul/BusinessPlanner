@@ -128,8 +128,11 @@ class _ClientTransPageState extends State<ClientTransPage> {
   _completeTransaction() async {
     if (amountController.text.isNotEmpty) {
       if (tValue == TransactionType.debit) {
+//        final url =
+//            'http://10.0.2.2:5000/api/clients/client/debit/${widget.client.id}';
+
         final url =
-            'http://10.0.2.2:5000/api/clients/client/debit/${widget.client.id}';
+            'http://192.168.1.109:5000/api/clients/client/debit/${widget.client.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -154,8 +157,10 @@ class _ClientTransPageState extends State<ClientTransPage> {
         noteController.clear();
         Navigator.pushNamed(context, ClientScreen.id);
       } else {
+//        final url =
+//            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
         final url =
-            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
+            'http://192.168.1.109:5000/api/clients/client/credit/${widget.client.id}';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,
