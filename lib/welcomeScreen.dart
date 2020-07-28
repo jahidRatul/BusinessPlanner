@@ -192,7 +192,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       // final url = 'http://10.0.2.2:5000/api/users/login';
 
       // if (device + local server) thn should be ip_address:5000 instead of localhost:5000
-      final url = 'http://192.168.1.109:5000/api/users/login';
+      final url = 'http://192.168.1.124:5000/api/users/login';
 
       Map data = {
         'mobileno': mobileController.text,

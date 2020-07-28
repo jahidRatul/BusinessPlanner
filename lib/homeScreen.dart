@@ -1,6 +1,7 @@
 import 'package:bussinesscounter/clientScreen.dart';
 import 'package:bussinesscounter/employeeScreen.dart';
 import 'package:bussinesscounter/officeScreen.dart';
+import 'package:bussinesscounter/reportScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,6 +113,29 @@ class AdminWidget extends StatelessWidget {
               ),
               padding: EdgeInsets.all(15.0),
               child: Text('Employee', style: TextStyle(fontSize: 20)),
+            ),
+          ),
+          SizedBox(height: 30),
+          RaisedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, ReportScreen.id);
+            },
+            textColor: Colors.white,
+            padding: EdgeInsets.all(15.0),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Color(0xFFc70039),
+                    Color(0xFFf37121),
+                    Color(0xFFffbd69),
+                  ],
+                ),
+              ),
+              padding: EdgeInsets.all(15.0),
+              child: Center(
+                  child: Text('Reports', style: TextStyle(fontSize: 20))),
             ),
           ),
         ],

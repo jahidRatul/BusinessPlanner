@@ -131,7 +131,7 @@ class _OfficeScreenState extends State<OfficeScreen> {
         // final url = 'http://10.0.2.2:5000/api/office/debit';
 
         // if (device + local server) thn should be ip_address:5000 instead of localhost:5000
-        final url = 'http://192.168.1.109:5000/api/office/debit';
+        final url = 'http://192.168.0.117:5000/api/office/debit';
 
         Map data = {
           'amount': amountController.text,
@@ -159,7 +159,7 @@ class _OfficeScreenState extends State<OfficeScreen> {
 //        final url = 'http://10.0.2.2:5000/api/office/credit';
 
         // if (device + local server) thn should be ip_address:5000 instead of localhost:5000
-        final url = 'http://192.168.1.109:5000/api/office/credit';
+        final url = 'http://192.168.0.117:5000/api/office/credit';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,

@@ -132,7 +132,7 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //            'http://10.0.2.2:5000/api/clients/client/debit/${widget.client.id}';
 
         final url =
-            'http://192.168.1.109:5000/api/clients/client/debit/${widget.client.id}';
+            'http://192.168.0.117:5000/api/clients/client/debit/${widget.client.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -160,7 +160,7 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        final url =
 //            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
         final url =
-            'http://192.168.1.109:5000/api/clients/client/credit/${widget.client.id}';
+            'http://192.168.0.117:5000/api/clients/client/credit/${widget.client.id}';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,
