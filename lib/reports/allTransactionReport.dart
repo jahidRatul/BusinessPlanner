@@ -49,7 +49,7 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
   Future<List<Client>> _getClient() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = 'http://192.168.0.117:5000/api/reports/report/transactions/all';
+    final url = 'http://192.168.1.142:5000/api/reports/report/transactions/all';
 
     Map data = {'uId': userId};
     //encode Map to JSON
@@ -103,26 +103,31 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: Column(
-                        children: <Widget>[
-                          CircleAvatar(
-                            child: Text(snapshot.data[index].pid.toString()),
-                          ),
-                          Text(snapshot.data[index].type),
-                        ],
-                      ),
-                      isThreeLine: true,
-                      title: Text(snapshot.data[index].name),
-                      subtitle: Text(snapshot.data[index].tTime +
-                          " " +
-                          snapshot.data[index].note),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(snapshot.data[index].tType),
-                          Text('tk:' + snapshot.data[index].amount.toString()),
-                        ],
+                    return Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.deepPurple)),
+                      child: ListTile(
+                        leading: Column(
+                          children: <Widget>[
+                            CircleAvatar(
+                              child: Text(snapshot.data[index].pid.toString()),
+                            ),
+                            Text(snapshot.data[index].type),
+                          ],
+                        ),
+                        isThreeLine: true,
+                        title: Text(snapshot.data[index].name),
+                        subtitle: Text(snapshot.data[index].tTime +
+                            " " +
+                            snapshot.data[index].note),
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Text(snapshot.data[index].tType),
+                            Text(
+                                'tk:' + snapshot.data[index].amount.toString()),
+                          ],
+                        ),
                       ),
                     );
                   });

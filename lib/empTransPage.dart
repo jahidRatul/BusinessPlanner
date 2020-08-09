@@ -132,7 +132,7 @@ class _EmpTransPageState extends State<EmpTransPage> {
 //            'http://10.0.2.2:5000/api/employees/employee/debit/${widget.emp.id}';
 
         final url =
-            'http://192.168.0.117:5000/api/employees/employee/debit/${widget.emp.id}';
+            'http://192.168.1.141:5000/api/employees/employee/debit/${widget.emp.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -160,7 +160,7 @@ class _EmpTransPageState extends State<EmpTransPage> {
 //        final url =
 //            'http://10.0.2.2:5000/api/employees/employee/credit/${widget.emp.id}';
         final url =
-            'http://192.168.0.117:5000/api/employees/employee/credit/${widget.emp.id}';
+            'http://192.168.1.141:5000/api/employees/employee/credit/${widget.emp.id}';
 
         Map data = {
           'amount': amountController.text,
