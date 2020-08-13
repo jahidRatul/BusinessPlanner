@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'homeScreen.dart';
+import 'constants.dart';
 
 class OfficeScreen extends StatefulWidget {
   static String id = 'office';
@@ -131,7 +132,7 @@ class _OfficeScreenState extends State<OfficeScreen> {
         // final url = 'http://10.0.2.2:5000/api/office/debit';
 
         // if (device + local server) thn should be ip_address:5000 instead of localhost:5000
-        final url = 'http://192.168.1.142:5000/api/office/debit';
+        final url = callApi + '/office/debit';
 
         Map data = {
           'amount': amountController.text,
@@ -159,7 +160,7 @@ class _OfficeScreenState extends State<OfficeScreen> {
 //        final url = 'http://10.0.2.2:5000/api/office/credit';
 
         // if (device + local server) thn should be ip_address:5000 instead of localhost:5000
-        final url = 'http://192.168.1.142:5000/api/office/credit';
+        final url = callApi + '/office/credit';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,

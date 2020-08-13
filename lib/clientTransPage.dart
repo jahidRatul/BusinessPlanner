@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:bussinesscounter/clientScreen.dart';
+import 'package:bussinesscounter/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
 
 enum TransactionType { debit, credit }
 var userKey;
@@ -131,8 +133,7 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        final url =
 //            'http://10.0.2.2:5000/api/clients/client/debit/${widget.client.id}';
 
-        final url =
-            'http://192.168.0.117:5000/api/clients/client/debit/${widget.client.id}';
+        final url = callApi + '/clients/client/debit/${widget.client.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -155,12 +156,11 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, ClientScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {
 //        final url =
 //            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
-        final url =
-            'http://192.168.0.117:5000/api/clients/client/credit/${widget.client.id}';
+        final url = callApi + '/clients/client/credit/${widget.client.id}';
         Map data = {
           'amount': amountController.text,
           'note': noteController.text,
@@ -182,7 +182,7 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, ClientScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
     }
   }

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home';
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
     final url =
-        'http://192.168.1.142:5000/api/reports/report/transactions/currentBalanceIndividual';
+        callApi + '/reports/report/transactions/currentBalanceIndividual';
 
     Map data = {'uId': userId};
     //encode Map to JSON

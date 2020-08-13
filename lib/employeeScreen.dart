@@ -3,6 +3,7 @@ import 'package:bussinesscounter/empTransPage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
 
 class EmployeeScreen extends StatefulWidget {
   static String id = 'employee';
@@ -47,7 +48,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   Future<List<Employee>> _getEmp() async {
 //    final url = 'http://10.0.2.2:5000/api/employees/employee';
 
-    final url = 'http://192.168.1.141:5000/api/employees/employee/user=$userId';
+    final url = callApi + '/employees/employee/user=$userId';
 
     http.Response response = await http.get(
       url,
@@ -71,7 +72,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Business Planner "),
+        title: Text(" Employees "),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -137,10 +138,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: CircleAvatar(
-                        child: Icon(
-                          Icons.account_circle,
-                          color: Colors.white,
-                        ),
+                        child: Text(snapshot.data[index].id.toString()),
                       ),
                       title: Text(snapshot.data[index].name),
                       onTap: () {
@@ -161,7 +159,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   _addEmp() async {
 //    final url = 'http://10.0.2.2:5000/api/employees/employee';
 
-    final url = 'http://192.168.1.141:5000/api/employees/employee';
+    final url = callApi + '/employees/employee';
 
     setState(() {
       _getEmp();

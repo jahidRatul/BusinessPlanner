@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
 
 import 'clientTransPage.dart';
 
@@ -50,7 +51,7 @@ class _ClientScreenState extends State<ClientScreen> {
   Future<List<Client>> _getClient() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = 'http://192.168.0.117:5000/api/clients/client/user=$userId';
+    final url = callApi + '/clients/client/user=$userId';
 
     http.Response response = await http.get(
       url,
@@ -74,7 +75,7 @@ class _ClientScreenState extends State<ClientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Business Planner "),
+        title: Text(" Clients "),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -140,10 +141,7 @@ class _ClientScreenState extends State<ClientScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: CircleAvatar(
-                        child: Icon(
-                          Icons.account_circle,
-                          color: Colors.white,
-                        ),
+                        child: Text(snapshot.data[index].id.toString()),
                       ),
                       title: Text(snapshot.data[index].name),
                       onTap: () {
@@ -164,7 +162,7 @@ class _ClientScreenState extends State<ClientScreen> {
   _addClient() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = 'http://192.168.0.117:5000/api/clients/client';
+    final url = callApi + '/clients/client';
 
     setState(() {
       _getClient();

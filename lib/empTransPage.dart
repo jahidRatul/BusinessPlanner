@@ -3,6 +3,8 @@ import 'package:bussinesscounter/employeeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'constants.dart';
+import 'homeScreen.dart';
 
 enum TransactionType { debit, credit }
 var userKey;
@@ -131,8 +133,7 @@ class _EmpTransPageState extends State<EmpTransPage> {
 //        final url =
 //            'http://10.0.2.2:5000/api/employees/employee/debit/${widget.emp.id}';
 
-        final url =
-            'http://192.168.1.141:5000/api/employees/employee/debit/${widget.emp.id}';
+        final url = callApi + '/employees/employee/debit/${widget.emp.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -155,12 +156,11 @@ class _EmpTransPageState extends State<EmpTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, EmployeeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {
 //        final url =
 //            'http://10.0.2.2:5000/api/employees/employee/credit/${widget.emp.id}';
-        final url =
-            'http://192.168.1.141:5000/api/employees/employee/credit/${widget.emp.id}';
+        final url = callApi + '/employees/employee/credit/${widget.emp.id}';
 
         Map data = {
           'amount': amountController.text,
@@ -183,7 +183,7 @@ class _EmpTransPageState extends State<EmpTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushNamed(context, EmployeeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       }
     }
   }

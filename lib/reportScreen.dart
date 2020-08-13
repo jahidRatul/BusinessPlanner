@@ -2,6 +2,7 @@ import 'package:bussinesscounter/clientScreen.dart';
 import 'package:bussinesscounter/employeeScreen.dart';
 import 'package:bussinesscounter/officeScreen.dart';
 import 'package:bussinesscounter/reports/allTransactionReport.dart';
+import 'package:bussinesscounter/reports/clientReport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,8 +75,30 @@ class ReportWidget extends StatelessWidget {
             onPressed: () {},
             color: Colors.red,
             textColor: Colors.white,
+            child: Text("Office".toUpperCase(), style: TextStyle(fontSize: 14)),
+          ),
+          SizedBox(width: 10),
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Colors.red)),
+            onPressed: () {
+              Navigator.pushNamed(context, ClientReport.id);
+            },
+            color: Colors.red,
+            textColor: Colors.white,
+            child: Text("Client".toUpperCase(), style: TextStyle(fontSize: 14)),
+          ),
+          SizedBox(width: 10),
+          RaisedButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Colors.red)),
+            onPressed: () {},
+            color: Colors.red,
+            textColor: Colors.white,
             child:
-                Text("Buy now".toUpperCase(), style: TextStyle(fontSize: 14)),
+                Text("Employee".toUpperCase(), style: TextStyle(fontSize: 14)),
           ),
         ],
       ),

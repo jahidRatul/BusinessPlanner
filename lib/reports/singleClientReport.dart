@@ -5,16 +5,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:bussinesscounter/constants.dart';
 
-class AllTransactionReport extends StatefulWidget {
-  static String id = 'allTransReport';
+class SingleClientReport extends StatefulWidget {
+  static String id = 'singleClientReport';
+  final Client client;
+
+  SingleClientReport(this.client);
 
   @override
-  _AllTransactionReportState createState() => _AllTransactionReportState();
+  _SingleClientReportState createState() => _SingleClientReportState();
 }
 
 enum TransactionType { debit, credit }
 
-class _AllTransactionReportState extends State<AllTransactionReport> {
+class _SingleClientReportState extends State<SingleClientReport> {
   TextEditingController clientController = TextEditingController();
   var userKey;
   var userId;
@@ -50,9 +53,9 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
   Future<List<Client>> _getClient() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = callApi + '/reports/report/transactions/all';
+    final url = callApi + '/reports/report/transactions/singleClient';
 
-    Map data = {'uId': userId};
+    Map data = {'uId': userId, 'id': widget.client.id};
     //encode Map to JSON
     var bodyValue = json.encode(data);
 
@@ -89,7 +92,7 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Business Planner "),
+        title: Text(widget.client.name),
         centerTitle: true,
       ),
       body: Container(

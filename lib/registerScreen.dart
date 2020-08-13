@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:bussinesscounter/welcomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String id = 'register';
@@ -191,7 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // final url = 'http://10.0.2.2:5000/api/users/register';
 
       // if (device + local server) thn should be ip_address:5000 instead of localhost:5000
-      final url = 'http://192.168.0.141:5000/api/users/register';
+      final url = callApi + '/users/register';
 
       Map data = {
         'name': nameController.text,
