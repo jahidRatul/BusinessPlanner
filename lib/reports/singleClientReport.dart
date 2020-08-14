@@ -19,6 +19,7 @@ enum TransactionType { debit, credit }
 var totalDebit;
 var totalCredit;
 var balance;
+var countPerson;
 
 class _SingleClientReportState extends State<SingleClientReport> {
   var userKey;
@@ -81,14 +82,15 @@ class _SingleClientReportState extends State<SingleClientReport> {
       );
       persons.add(person);
     }
-    print(persons.length);
+    countPerson = persons.length;
+
     return persons;
   }
 
   Future _getSummery() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = callApi + '/reports/report/transactions/singleClientSummery';
+    final url = callApi + '/reports/report/transactions/singleClientSummary';
 
     Map data = {'uId': userId, 'id': widget.client.id};
     //encode Map to JSON
@@ -103,7 +105,7 @@ class _SingleClientReportState extends State<SingleClientReport> {
       body: bodyValue,
     );
     var jsonData = json.decode(response.body);
-    print(jsonData);
+
     setState(() {
       totalDebit = jsonData[0]['total_debit'];
       totalCredit = jsonData[0]['total_credit'];
@@ -136,7 +138,7 @@ class _SingleClientReportState extends State<SingleClientReport> {
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.deepPurple)),
+                                  border: Border.all(color: Colors.black38)),
                               child: ListTile(
                                 leading: Column(
                                   children: <Widget>[
@@ -173,9 +175,32 @@ class _SingleClientReportState extends State<SingleClientReport> {
                     height: 80,
                     padding: EdgeInsets.all(5),
                     child: Table(
-                      border: TableBorder.all(color: Colors.black38),
+                      border: TableBorder.all(color: Colors.teal),
                       children: [
                         TableRow(children: [
+                          TableCell(
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Transactions',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'times: ' + countPerson.toString(),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           TableCell(
                             child: Column(
                               children: <Widget>[

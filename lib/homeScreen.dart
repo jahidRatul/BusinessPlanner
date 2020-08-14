@@ -42,11 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
     userKey = keyValue;
     userId = uidValue;
     setState(() {
-      _getClient();
+      _getBalance();
     });
   }
 
-  Future _getClient() async {
+  Future _getBalance() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
     final url =
