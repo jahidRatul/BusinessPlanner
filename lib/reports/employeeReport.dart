@@ -1,20 +1,20 @@
 import 'dart:convert';
-import 'package:bussinesscounter/reports/singleClientReport.dart';
+import 'package:bussinesscounter/reports/singleEmployeeReport.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../constants.dart';
 
-class ClientReport extends StatefulWidget {
-  static String id = 'clientReport';
+class EmployeeReport extends StatefulWidget {
+  static String id = 'empReport';
 
   @override
-  _ClientReportState createState() => _ClientReportState();
+  _EmployeeReportState createState() => _EmployeeReportState();
 }
 
 enum TransactionType { debit, credit }
 
-class _ClientReportState extends State<ClientReport> {
+class _EmployeeReportState extends State<EmployeeReport> {
   var userKey;
   var userId;
 
@@ -43,7 +43,7 @@ class _ClientReportState extends State<ClientReport> {
   Future<List<Person>> _getPerson() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = callApi + '/clients/client/user=$userId';
+    final url = callApi + '/employees/employee/user=$userId';
 
     http.Response response = await http.get(
       url,
@@ -68,7 +68,7 @@ class _ClientReportState extends State<ClientReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Clients Report "),
+        title: Text(" Employees Report "),
         centerTitle: true,
       ),
       body: Container(
@@ -92,8 +92,8 @@ class _ClientReportState extends State<ClientReport> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SingleClientReport(snapshot.data[index])));
+                                builder: (context) => SingleEmployeeReport(
+                                    snapshot.data[index])));
                       },
                     );
                   });

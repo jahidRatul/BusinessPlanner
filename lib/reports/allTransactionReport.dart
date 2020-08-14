@@ -15,15 +15,8 @@ class AllTransactionReport extends StatefulWidget {
 enum TransactionType { debit, credit }
 
 class _AllTransactionReportState extends State<AllTransactionReport> {
-  TextEditingController clientController = TextEditingController();
   var userKey;
   var userId;
-  @override
-  void dispose() {
-    clientController.dispose();
-
-    super.dispose();
-  }
 
   void initState() {
     _getUserInfo();
@@ -43,11 +36,11 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
 //    print(nameValue);
 //    print(uidValue);
     setState(() {
-      _getClient();
+      _getPerson();
     });
   }
 
-  Future<List<Client>> _getClient() async {
+  Future<List<Person>> _getPerson() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
     final url = callApi + '/reports/report/transactions/all';
@@ -66,9 +59,9 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
     );
     var jsonData = json.decode(response.body);
 //    print(jsonData);
-    List<Client> clients = [];
+    List<Person> persons = [];
     for (var i in jsonData) {
-      Client client = Client(
+      Person person = Person(
         i["name"],
         i["id"],
         i["uId"],
@@ -79,10 +72,10 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
         i["note"],
         i["type"],
       );
-      clients.add(client);
+      persons.add(person);
     }
-    print(clients.length);
-    return clients;
+    print(persons.length);
+    return persons;
   }
 
   @override
@@ -94,7 +87,7 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
       ),
       body: Container(
         child: FutureBuilder(
-          future: _getClient(),
+          future: _getPerson(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(
@@ -139,7 +132,7 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
   }
 }
 
-class Client {
+class Person {
   final String name;
   final int id;
   final int uId;
@@ -150,7 +143,7 @@ class Client {
   final String tTime;
   final String note;
 
-  Client(
+  Person(
     this.name,
     this.id,
     this.uId,

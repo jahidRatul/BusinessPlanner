@@ -1,7 +1,8 @@
 import 'package:bussinesscounter/clientScreen.dart';
 import 'package:bussinesscounter/employeeScreen.dart';
 import 'package:bussinesscounter/officeScreen.dart';
-import 'package:bussinesscounter/reportScreen.dart';
+import 'package:bussinesscounter/reports/employeeReport.dart';
+import 'package:bussinesscounter/reports/reportScreen.dart';
 import 'package:bussinesscounter/reports/allTransactionReport.dart';
 import 'package:bussinesscounter/reports/clientReport.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         ReportScreen.id: (context) => ReportScreen(),
         AllTransactionReport.id: (context) => AllTransactionReport(),
         ClientReport.id: (context) => ClientReport(),
+        EmployeeReport.id: (context) => EmployeeReport()
       },
     );
   }

@@ -5,14 +5,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:bussinesscounter/constants.dart';
 
-class SingleClientReport extends StatefulWidget {
-  static String id = 'singleClientReport';
-  final Person client;
+class SingleEmployeeReport extends StatefulWidget {
+  static String id = 'singleEmployeeReport';
+  final Person emp;
 
-  SingleClientReport(this.client);
+  SingleEmployeeReport(this.emp);
 
   @override
-  _SingleClientReportState createState() => _SingleClientReportState();
+  _SingleEmployeeReportState createState() => _SingleEmployeeReportState();
 }
 
 enum TransactionType { debit, credit }
@@ -20,7 +20,7 @@ var totalDebit;
 var totalCredit;
 var balance;
 
-class _SingleClientReportState extends State<SingleClientReport> {
+class _SingleEmployeeReportState extends State<SingleEmployeeReport> {
   var userKey;
   var userId;
 
@@ -50,9 +50,9 @@ class _SingleClientReportState extends State<SingleClientReport> {
   Future<List<Person>> _getPerson() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = callApi + '/reports/report/transactions/singleClient';
+    final url = callApi + '/reports/report/transactions/singleEmployee';
 
-    Map data = {'uId': userId, 'id': widget.client.id};
+    Map data = {'uId': userId, 'id': widget.emp.id};
     //encode Map to JSON
     var bodyValue = json.encode(data);
 
@@ -88,9 +88,9 @@ class _SingleClientReportState extends State<SingleClientReport> {
   Future _getSummery() async {
 //    final url = 'http://10.0.2.2:5000/api/clients/client';
 
-    final url = callApi + '/reports/report/transactions/singleClientSummery';
+    final url = callApi + '/reports/report/transactions/singleEmployeeSummery';
 
-    Map data = {'uId': userId, 'id': widget.client.id};
+    Map data = {'uId': userId, 'id': widget.emp.id};
     //encode Map to JSON
     var bodyValue = json.encode(data);
 
@@ -115,7 +115,7 @@ class _SingleClientReportState extends State<SingleClientReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.client.name),
+        title: Text(widget.emp.name),
         centerTitle: true,
       ),
       body: SafeArea(
