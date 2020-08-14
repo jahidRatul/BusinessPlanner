@@ -119,7 +119,7 @@ class _AllTransactionReportState extends State<AllTransactionReport> {
                         isThreeLine: true,
                         title: Text(snapshot.data[index].name),
                         subtitle: Text(snapshot.data[index].tTime +
-                            " " +
+                            "\n" +
                             snapshot.data[index].note),
                         trailing: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
