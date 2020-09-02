@@ -217,9 +217,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         prefs.setString("userName", user['name']);
         prefs.setInt("uId", user['accId']);
 
+
         mobileController.clear();
         passwordController.clear();
-        Navigator.pushNamed(context, HomeScreen.id);
+        Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {
         setState(() {
           messageValidation = user['message'];

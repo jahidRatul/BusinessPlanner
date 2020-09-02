@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bussinesscounter/welcomeScreen.dart';
+import 'package:intl/intl.dart';
 import 'package:bussinesscounter/clientScreen.dart';
 import 'package:bussinesscounter/employeeScreen.dart';
 import 'package:bussinesscounter/officeScreen.dart';
@@ -19,10 +21,12 @@ class HomeScreen extends StatefulWidget {
 var ofcAmount;
 var clientAmount;
 var empAmount;
+var adminBalance;
 
 class _HomeScreenState extends State<HomeScreen> {
   var userKey;
   var userId;
+  var userName;
 
   void initState() {
     _getUserInfo();
@@ -39,10 +43,34 @@ class _HomeScreenState extends State<HomeScreen> {
 //    print('keyVal ->' + keyValue);
 //    print('nameVal ->' + nameValue);
 //    print('accId ->' + uidValue.toString());
+    userName = nameValue;
     userKey = keyValue;
     userId = uidValue;
     setState(() {
       _getBalance();
+      _getAdminBalance();
+    });
+  }
+
+  Future _getAdminBalance() async {
+    final url = callApi + '/reports/report/transactions/adminBalance';
+
+    Map data = {'uId': userId};
+    //encode Map to JSON
+    var bodyValue = json.encode(data);
+
+    http.Response response = await http.post(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': 'Bearer $userKey',
+      },
+      body: bodyValue,
+    );
+    var jsonData = json.decode(response.body);
+    print(jsonData);
+    setState(() {
+      adminBalance = jsonData[0]['balance'];
     });
   }
 
@@ -66,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     var jsonData = json.decode(response.body);
     print(jsonData);
+
     setState(() {
       ofcAmount = jsonData[0]['ofc'];
       clientAmount = jsonData[0]['client'];
@@ -77,9 +106,52 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Business Planner "),
-        centerTitle: true,
+        leading: Icon(
+          Icons.account_circle,
+          size: 45,
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '$userName',
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
+            ),
+            Text(
+              "$adminBalance",
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ],
+        ),
       ),
+      endDrawer: Drawer(
+          child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text(
+              '$userName',
+              style: TextStyle(color: Colors.white, fontSize: 22.0),
+            ),
+            currentAccountPicture: CircleAvatar(
+              child: FlutterLogo(size: 40),
+              backgroundColor: Colors.white,
+            ),
+          ),
+          ListTile(
+            title: Text('Logout'),
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove('accessKey');
+              prefs.remove('userName');
+              prefs.remove('uId');
+              Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+            },
+          ),
+        ],
+      )),
       body: AdminWidget(),
     );
   }
@@ -127,7 +199,7 @@ class AdminWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     subtitle: Text(
-                      'tk: ' + ofcAmount.toString(),
+                      '$ofcAmount',
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -167,7 +239,7 @@ class AdminWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     subtitle: Text(
-                      'tk: ' + clientAmount.toString(),
+                      clientAmount.toString(),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -207,7 +279,7 @@ class AdminWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     subtitle: Text(
-                      'tk: ' + empAmount.toString(),
+                      empAmount.toString(),
                       textAlign: TextAlign.center,
                     ),
                   ),

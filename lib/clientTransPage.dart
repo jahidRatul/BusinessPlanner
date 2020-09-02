@@ -156,7 +156,8 @@ class _ClientTransPageState extends State<ClientTransPage> {
 //        print("success msg -> " + user['message']);
         amountController.clear();
         noteController.clear();
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
       } else {
 //        final url =
 //            'http://10.0.2.2:5000/api/clients/client/credit/${widget.client.id}';
