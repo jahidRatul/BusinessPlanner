@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'constants.dart';
+import 'homeScreen.dart';
 
 class EmployeeScreen extends StatefulWidget {
   static String id = 'employee';
@@ -70,87 +71,98 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(" Employees "),
-        centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                color: Colors.white70,
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      SizedBox(height: 20),
-                      Text(
-                        'Add Employee',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigo),
-                      ),
-                      TextField(
-                        autofocus: true,
-                        textAlign: TextAlign.center,
-                        controller: empController,
-                      ),
-                      RaisedButton(
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                        onPressed: _addEmp,
-                        color: Colors.indigo,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
-        label: Text(
-          'Add Employee',
-          style: TextStyle(
-            fontSize: 18,
-          ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(" Employees "),
+          centerTitle: true,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, HomeScreen.id);
+              }),
         ),
-        icon: Icon(Icons.add),
-        backgroundColor: Colors.indigo,
-      ),
-      body: Container(
-        child: FutureBuilder(
-          future: _getEmp(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                child: Center(child: Text('Loading...')),
-              );
-            } else
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(snapshot.data[index].id.toString()),
-                      ),
-                      title: Text(snapshot.data[index].name),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    EmpTransPage(snapshot.data[index])));
-                      },
-                    );
-                  });
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                  color: Colors.white70,
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        SizedBox(height: 20),
+                        Text(
+                          'Add Employee',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigo),
+                        ),
+                        TextField(
+                          autofocus: true,
+                          textAlign: TextAlign.center,
+                          controller: empController,
+                        ),
+                        RaisedButton(
+                          child: const Text(
+                            'Submit',
+                            style: TextStyle(fontSize: 22, color: Colors.white),
+                          ),
+                          onPressed: _addEmp,
+                          color: Colors.indigo,
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
           },
+          label: Text(
+            'Add Employee',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          icon: Icon(Icons.add),
+          backgroundColor: Colors.indigo,
+        ),
+        body: Container(
+          child: FutureBuilder(
+            future: _getEmp(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Container(
+                  child: Center(child: Text('Loading...')),
+                );
+              } else
+                return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          child: Text(snapshot.data[index].id.toString()),
+                        ),
+                        title: Text(snapshot.data[index].name),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EmpTransPage(snapshot.data[index])));
+                        },
+                      );
+                    });
+            },
+          ),
         ),
       ),
     );

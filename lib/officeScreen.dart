@@ -50,77 +50,88 @@ class _OfficeScreenState extends State<OfficeScreen> {
   TransactionType tValue = TransactionType.debit;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(" Business Planner "),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              title: const Text('Debit'),
-              leading: Radio(
-                value: TransactionType.debit,
-                groupValue: tValue,
-                onChanged: (TransactionType value) {
-                  setState(() {
-                    tValue = value;
-                  });
-                },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(" Business Planner "),
+          centerTitle: true,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
               ),
-            ),
-            ListTile(
-              title: const Text('Credit'),
-              leading: Radio(
-                value: TransactionType.credit,
-                groupValue: tValue,
-                onChanged: (TransactionType value) {
-                  setState(() {
-                    tValue = value;
-                  });
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25, right: 70),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: amountController,
-                decoration: InputDecoration(
-                  hintText: 'amount',
-                  border: OutlineInputBorder(),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, HomeScreen.id);
+              }),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: const Text('Debit'),
+                leading: Radio(
+                  value: TransactionType.debit,
+                  groupValue: tValue,
+                  onChanged: (TransactionType value) {
+                    setState(() {
+                      tValue = value;
+                    });
+                  },
                 ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25, right: 70),
-              child: TextField(
-                maxLines: 3,
-                controller: noteController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Note',
+              ListTile(
+                title: const Text('Credit'),
+                leading: Radio(
+                  value: TransactionType.credit,
+                  groupValue: tValue,
+                  onChanged: (TransactionType value) {
+                    setState(() {
+                      tValue = value;
+                    });
+                  },
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 25, top: 25),
-              child: RaisedButton(
-                onPressed: _completeTransaction,
-                child: Text(
-                  'Submit',
-                  style: TextStyle(fontSize: 17),
+              Padding(
+                padding: EdgeInsets.only(left: 25, right: 70),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: amountController,
+                  decoration: InputDecoration(
+                    hintText: 'amount',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-                textColor: Colors.indigo,
               ),
-            )
-          ],
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, right: 70),
+                child: TextField(
+                  maxLines: 3,
+                  controller: noteController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Note',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 25, top: 25),
+                child: RaisedButton(
+                  onPressed: _completeTransaction,
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(fontSize: 17),
+                  ),
+                  textColor: Colors.indigo,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

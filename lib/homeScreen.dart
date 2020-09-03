@@ -104,55 +104,58 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(
-          Icons.account_circle,
-          size: 45,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Icon(
+            Icons.account_circle,
+            size: 45,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '$userName',
+                style: TextStyle(color: Colors.white, fontSize: 18.0),
+              ),
+              Text(
+                "$adminBalance",
+                style: TextStyle(color: Colors.white, fontSize: 16.0),
+              ),
+            ],
+          ),
         ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '$userName',
-              style: TextStyle(color: Colors.white, fontSize: 18.0),
+        endDrawer: Drawer(
+            child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                '$userName',
+                style: TextStyle(color: Colors.white, fontSize: 22.0),
+              ),
+              currentAccountPicture: CircleAvatar(
+                child: FlutterLogo(size: 40),
+                backgroundColor: Colors.white,
+              ),
             ),
-            Text(
-              "$adminBalance",
-              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('accessKey');
+                prefs.remove('userName');
+                prefs.remove('uId');
+                Navigator.pushReplacementNamed(context, WelcomeScreen.id);
+              },
             ),
           ],
-        ),
+        )),
+        body: AdminWidget(),
       ),
-      endDrawer: Drawer(
-          child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              '$userName',
-              style: TextStyle(color: Colors.white, fontSize: 22.0),
-            ),
-            currentAccountPicture: CircleAvatar(
-              child: FlutterLogo(size: 40),
-              backgroundColor: Colors.white,
-            ),
-          ),
-          ListTile(
-            title: Text('Logout'),
-            onTap: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.remove('accessKey');
-              prefs.remove('userName');
-              prefs.remove('uId');
-              Navigator.pushReplacementNamed(context, WelcomeScreen.id);
-            },
-          ),
-        ],
-      )),
-      body: AdminWidget(),
     );
   }
 }
@@ -169,7 +172,7 @@ class AdminWidget extends StatelessWidget {
             children: <Widget>[
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, OfficeScreen.id);
+                  Navigator.pushReplacementNamed(context, OfficeScreen.id);
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(15.0),
@@ -212,7 +215,7 @@ class AdminWidget extends StatelessWidget {
             children: <Widget>[
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, ClientScreen.id);
+                  Navigator.pushReplacementNamed(context, ClientScreen.id);
                 },
                 textColor: Colors.white,
                 padding: EdgeInsets.all(15.0),
@@ -252,7 +255,7 @@ class AdminWidget extends StatelessWidget {
             children: <Widget>[
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, EmployeeScreen.id);
+                  Navigator.pushReplacementNamed(context, EmployeeScreen.id);
                 },
                 textColor: Colors.white,
                 padding: EdgeInsets.all(15.0),
